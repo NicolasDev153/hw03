@@ -100,18 +100,28 @@ public class LMS {
             String line;
             books.clear();
             borrowedBooks.clear();
+            boolean isBooksSection = false;
+
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                String title = parts[0].trim();
-                String author = parts[1].trim();
-                Book book = new Book(title, author);
-                books.add(book);
-                if (parts.length > 2) {
-                    String name = parts[2].trim();
-                    String surname = parts[3].trim();
-                    String personalNumber = parts[4].trim();
-                    Student student = new Student(name, surname, personalNumber);
-                    borrowedBooks.put(book, student);
+                if (line.trim().equals("Books:")) {
+                    isBooksSection = true;
+                    continue;
+                }
+
+                if (isBooksSection) {
+                    if (line.trim().startsWith("Title:")) {
+                        String title = line.substring(line.indexOf(":") + 1, line.indexOf("Author:")).trim();
+                        String author = line.substring(line.lastIndexOf(":") + 1).trim();
+                        Book book = new Book(title, author);
+                        books.add(book);
+                    } else if (line.trim().startsWith("Borrowed by:")) {
+                        String name = line.substring(line.indexOf("Name:") + 5, line.indexOf("Surname:")).trim();
+                        String surname = line.substring(line.indexOf("Surname:") + 9, line.indexOf("Personal Number:")).trim();
+                        String personalNumber = line.substring(line.lastIndexOf(":") + 1).trim();
+                        Student student = new Student(name, surname, personalNumber);
+                        Book lastBook = books.get(books.size() - 1);
+                        borrowedBooks.put(lastBook, student);
+                    }
                 }
             }
             return true;
