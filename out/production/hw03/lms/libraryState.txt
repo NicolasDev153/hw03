@@ -1,0 +1,6 @@
+Books:
+Title: Lord of the rings              Author: tolkien
+Borrowed by: Name: Gocha              Surname: Gegeshidze           Personal Number: dfasdf
+
+Title: OOP                            Author: paata gogisvhili
+Borrowed by: Name: Maka               Surname: Lobjanidze           Personal Number: 3421325
